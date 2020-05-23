@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/tem">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="44.2dp">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hi, There"
+                android:textSize="21.2sp"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="33.4dp"
+                android:layout_marginTop="20dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Who are \nwe looking for \ntoday?"
+            android:textSize="38.4sp"
+            android:textColor="#ffffff"
+            android:layout_marginTop="33.8dp"
+            android:layout_marginLeft="24dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rectangle_2"
+            android:layout_marginTop="41dp"
+            android:layout_marginLeft="22.1dp"
+            android:layout_marginRight="21.1dp"
+            android:paddingTop="15.5dp"
+            android:paddingBottom="15.5dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12.5dp"
+                android:src="@drawable/ic_search_black_24dp"
+                android:tint="#d0d0d0"/>
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:id="@+id/crim_view_id"
+                android:layout_height="wrap_content"
+                android:hint="Enter an ID for lookup..."
+                android:textColor="#000000"
+                android:background="#00000000"
+                android:layout_marginLeft="8.7dp"
+                android:textSize="14.4sp"
+                android:textColorHint="#9b9b9b"/>
+
+
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22.1dp"
+            android:layout_marginRight="21.1dp"
+            android:layout_marginTop="22.1dp"
+            android:background="@drawable/rectangle"
+            android:gravity="center_horizontal"
+            android:id="@+id/btnLookup"
+            android:padding="16dp"
+            android:text="SUBMIT"
+            android:textColor="#ffffff"
+            android:textSize="14.4sp" />
+
+        <TextView
+            android:id="@+id/backBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BACK"
+            android:padding="15dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_button2"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textAllCaps="false"
+            android:layout_marginBottom="20dp"
+            />
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
