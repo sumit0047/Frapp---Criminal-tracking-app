@@ -125,6 +125,8 @@ public class Criminal_Details extends AppCompatActivity {
             public void onClick(View view) {
                 if(!AlreadyTracking)
                 {
+                    DatabaseReference uRef = rootRef.child("tracking").child("ids").child(id);
+                    uRef.child(email.replace('.',',')).setValue(true);
                     pRef = rootRef.child("tracking").child(email.replace('.',',')).push();
                     pRef.child("id").setValue(id);
                     pRef.child("photo").setValue(img);
