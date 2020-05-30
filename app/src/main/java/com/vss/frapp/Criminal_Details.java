@@ -43,6 +43,7 @@ public class Criminal_Details extends AppCompatActivity {
 
     String img;
     String name;
+    String key;
 
     ImageView crim_image;
 
@@ -87,7 +88,6 @@ public class Criminal_Details extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(!dataSnapshot.exists())
                 {
-
                 }
                 else
                 {
@@ -136,110 +136,31 @@ public class Criminal_Details extends AppCompatActivity {
                     fab.setImageResource(R.drawable.tick);
                     AlreadyTracking = true;
                 }
-
                 else
-                    Snackbar.make(view, "Already Added To Tracking list", Snackbar.LENGTH_LONG)
+                {
+                    Query pQuery = rootRef.child("tracking").child(email.replace('.',',')).orderByChild("id").equalTo(id);
+                    pQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                                key = childSnapshot.getKey();
+                                dataSnapshot.getRef().child(key).removeValue();
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    Snackbar.make(view, "Removed from Tracking list", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                    fab.setImageResource(R.drawable.add);
+
+                }
+
             }
         });
-
-//        DatabaseReference mRef = rootRef.child("criminals").child(id);
-//        DatabaseReference aRef = mRef.child("address");
-//        DatabaseReference dRef = mRef.child("desc");
-//        DatabaseReference iRef = mRef.child("image");
-//        DatabaseReference nRef = mRef.child("full_name");
-//        DatabaseReference agRef = mRef.child("age");
-//        DatabaseReference idRef = mRef.child("id");
-//
-//        aRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                crim_addr.setText(dataSnapshot.getValue(String.class));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        dRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                crim_desc.setText(dataSnapshot.getValue(String.class));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        iRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                Picasso.get().load(dataSnapshot.getValue(String.class)).into(crim_image, new Callback() {
-//                    @Override
-//                    public void onSuccess() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Exception e) {
-//                        Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        nRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                crim_name.setText(dataSnapshot.getValue(String.class));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        idRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                crim_id.setText(dataSnapshot.getValue(String.class));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        agRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                crim_age.setText(dataSnapshot.getValue(String.class));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
-
 
         FirebaseDatabase.getInstance().getReference("criminals").orderByChild("id").equalTo(id).addValueEventListener(new ValueEventListener() {
             @Override
@@ -287,26 +208,20 @@ public class Criminal_Details extends AppCompatActivity {
         adapter = new FirebaseRecyclerAdapter<Model_Location, Location_View_holder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull Location_View_holder holder, int position, @NonNull Model_Location model) {
-
                 holder.date.setText(model.getDate());
                 holder.city.setText(model.getCity());
                 holder.loc.setText(model.getLoc());
                 holder.time.setText(model.getTime());
-
             }
-
             @Override
             public void onDataChanged() {
                 super.onDataChanged();
-
             }
-
             @Override
             public void onError(@NonNull DatabaseError error) {
                 super.onError(error);
                 Toast.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
             }
-
             @NonNull
             @Override
             public Location_View_holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -315,17 +230,12 @@ public class Criminal_Details extends AppCompatActivity {
                 return new Location_View_holder(view);
             }
         };
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView.LayoutManager rvlayoutmanager = layoutManager;
-
         recyclerView.setLayoutManager(rvlayoutmanager);
-
         adapter.startListening();
-
         recyclerView.setAdapter(adapter);
         ViewCompat.setNestedScrollingEnabled(recyclerView, false);
-
     }
 
 }

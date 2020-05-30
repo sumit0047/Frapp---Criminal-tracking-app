@@ -41,25 +41,17 @@ public class Login extends AppCompatActivity {
         PassField = (EditText) findViewById(R.id.pass);
 
         mAuth = FirebaseAuth.getInstance();
-
-
         mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
                 if(firebaseAuth.getCurrentUser()!=null) {
-
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-
                         startActivity(new Intent(Login.this,MainActivity.class));
-
                 }
             }
 
 
         };
-
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +59,6 @@ public class Login extends AppCompatActivity {
             }
         });
     }
-
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -75,10 +66,8 @@ public class Login extends AppCompatActivity {
             System.exit(0);
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -86,13 +75,11 @@ public class Login extends AppCompatActivity {
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
         mAuth.addAuthStateListener(mAuthListener);
     }
@@ -107,8 +94,6 @@ public class Login extends AppCompatActivity {
     {
         String emailid = EmailField.getText().toString();
         String password = PassField.getText().toString();
-
-
         if(emailid.isEmpty())
         {
             EmailField.setError("Email is Empty");
@@ -127,23 +112,18 @@ public class Login extends AppCompatActivity {
             PassField.requestFocus();
             return;
         }
-
         else{
             btnSignIn.setProgress(1);
             mAuth.signInWithEmailAndPassword(emailid,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-
-
                     if(!task.isSuccessful())
                     {
-
                         Toast.makeText(getApplicationContext(), "Problem With Sign In",Toast.LENGTH_LONG).show();
                         btnSignIn.setProgress(0);
                     }
                     else {
                         checkIfEmailVerified();
-
                     }
                 }
             });

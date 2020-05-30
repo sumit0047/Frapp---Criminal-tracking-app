@@ -171,23 +171,16 @@ public class Upload_Criminal extends AppCompatActivity {
 
     private void uploadFile()
     {
-        int up = 0;
-        int k =0;
+        int up = 0; int k =0;
         String uid = criminal_Name+criminal_id;
         StorageReference filepath = FirebaseStorage.getInstance().getReference().child(uid);
-
-        Log.i("upload","Inside");
         Log.i("upload",String.valueOf(mArrayUri.size()));
         if(up == mArrayUri.size())
-        {
             Toast.makeText(getApplicationContext(),"Choose more Images",Toast.LENGTH_SHORT).show();
-        }
         while (up < mArrayUri.size()){
-            Log.i("upload","Inside loop");
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading");
             progressDialog.show();
-
             filepath.child(mArrayUri.get(k).getLastPathSegment()).putFile(mArrayUri.get(k)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -200,43 +193,27 @@ public class Upload_Criminal extends AppCompatActivity {
                         flag =1;
                     }
                     Toast.makeText(getApplicationContext(), downloadURL.toString(), Toast.LENGTH_SHORT).show();
-
                     if(flag ==1) {
                         mRef.child(criminal_id).setValue(new Model_Criminal_Details(criminal_Name, criminal_id, criminal_image, criminal_add, criminal_desc, criminal_age));
-
                         flag = 9;
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    //if the upload is not successfull
-                    //hiding the progress dialog
                     progressDialog.dismiss();
-
-                    //and displaying error message
                     Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    //calculating progress percentage
                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-
-                    //displaying percentage in progress dialog
                     progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
                 }
             });
             up++;
             k++;
-
         }
-
-        //Map<String, Model_Criminal_Details> new_record = new HashMap<>();
-        //new_record.put(criminal_id,new Model_Criminal_Details(criminal_Name,criminal_id,criminal_image,criminal_add,criminal_desc,criminal_age));
-
-        //DatabaseReference new_record = mRef.push();
-        //new_record.setValue(new Model_Criminal_Details(criminal_Name,criminal_id,criminal_image,criminal_add,criminal_desc,criminal_age));
     }
 
 }

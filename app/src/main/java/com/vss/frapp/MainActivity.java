@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         track_crim = findViewById(R.id.btnTrack);
 
         logout = findViewById(R.id.logout);
-        //FirebaseApp.initializeApp(this);
 
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -51,15 +50,14 @@ public class MainActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             return;
                         }
-
                         // Get new Instance ID token
                         String token = task.getResult().getToken();
 
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("users").child(user.getEmail().replace('.',','));
+                        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("users")
+                                .child(user.getEmail().replace('.',','));
                         mRef.child("fcmTokens").child(token).setValue(true);
 
-                      //  Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
                     }
                 });
 
